@@ -14,6 +14,7 @@ const NAV = [
   { href: "/stocktake", label: "棚卸" },
   { href: "/history", label: "履歴" },
   { href: "/master/items", label: "品目マスタ" },
+  { href: "/master/categories", label: "カテゴリ管理" },
   { href: "/master/locations", label: "ロケーション" },
   { href: "/settings/users", label: "ユーザー管理" },
   { href: "/settings", label: "設定" },
