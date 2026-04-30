@@ -4,13 +4,13 @@ import { useEffect, useRef, useState } from "react";
 
 interface Props {
   onScan: (text: string) => void;
-  onError?: (e: Error) => void;
 }
 
-export function BarcodeScanner({ onScan, onError }: Props) {
+export function BarcodeScanner({ onScan }: Props) {
   const containerId = "tbn-ims-scanner";
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(false);
+  const [cameraErr, setCameraErr] = useState<string | null>(null);
   const [manual, setManual] = useState("");
 
   useEffect(() => {
@@ -33,9 +33,9 @@ export function BarcodeScanner({ onScan, onError }: Props) {
           },
           undefined,
         );
-      } catch (e) {
+      } catch {
         if (!cancelled) {
-          onError?.(e instanceof Error ? e : new Error(String(e)));
+          setCameraErr("カメラが利用できません。手動入力をご利用ください。");
           setActive(false);
         }
       }
@@ -46,31 +46,39 @@ export function BarcodeScanner({ onScan, onError }: Props) {
       scanner?.stop().catch(() => {});
       scanner?.clear?.();
     };
-  }, [active, onScan, onError]);
+  }, [active, onScan]);
+
+  function handleToggle() {
+    setCameraErr(null);
+    setActive((v) => !v);
+  }
 
   return (
-    <div className="space-y-3">
-      <div className="flex gap-2">
+    <div className="space-y-2">
+      <div className="flex flex-wrap gap-2">
         <button
           type="button"
-          onClick={() => setActive((v) => !v)}
-          className="rounded bg-brand px-3 py-1 text-sm text-white hover:bg-brand-light"
+          onClick={handleToggle}
+          className="rounded bg-brand px-3 py-2 text-sm text-white hover:bg-brand-light"
         >
           {active ? "スキャン停止" : "カメラでスキャン"}
         </button>
         <input
-          className="flex-1 rounded border border-slate-300 px-3 py-1 text-sm"
-          placeholder="または手動入力"
+          className="min-w-0 flex-1 rounded border border-slate-300 px-3 py-2 text-sm"
+          placeholder="バーコードを手動入力 → Enter"
           value={manual}
           onChange={(e) => setManual(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter" && manual) {
-              onScan(manual);
+            if (e.key === "Enter" && manual.trim()) {
+              onScan(manual.trim());
               setManual("");
             }
           }}
         />
       </div>
+      {cameraErr && (
+        <p className="rounded bg-amber-50 px-3 py-2 text-xs text-amber-700">{cameraErr}</p>
+      )}
       {active && (
         <div
           id={containerId}

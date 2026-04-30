@@ -20,25 +20,38 @@ const NAV = [
   { href: "/settings", label: "設定" },
 ];
 
-export function Sidebar() {
+interface Props {
+  onClose?: () => void;
+}
+
+export function Sidebar({ onClose }: Props) {
   const pathname = usePathname();
   return (
-    <aside className="w-56 shrink-0 bg-brand-dark text-white">
-      <div className="flex h-14 items-center justify-center border-b border-white/10 font-bold">
-        TBN-IMS
+    <aside className="flex h-full w-56 shrink-0 flex-col bg-brand-dark text-white">
+      <div className="flex h-14 items-center justify-between border-b border-white/10 px-4 font-bold">
+        <span>TBN-IMS</span>
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="rounded p-1 hover:bg-white/10 md:hidden"
+            aria-label="メニューを閉じる"
+          >
+            ✕
+          </button>
+        )}
       </div>
-      <nav className="p-2">
+      <nav className="flex-1 overflow-y-auto p-2">
         {NAV.map((item) => {
-          const active = pathname === item.href || pathname.startsWith(item.href + "/");
+          const active =
+            pathname === item.href || pathname.startsWith(item.href + "/");
           return (
             <Link
               key={item.href}
               href={item.href}
+              onClick={onClose}
               className={
                 "block rounded px-3 py-2 text-sm transition " +
-                (active
-                  ? "bg-brand-light font-semibold"
-                  : "hover:bg-white/10")
+                (active ? "bg-brand-light font-semibold" : "hover:bg-white/10")
               }
             >
               {item.label}
