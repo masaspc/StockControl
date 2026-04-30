@@ -34,8 +34,8 @@ export default function NewItemPage() {
       Object.keys(payload).forEach((k) => {
         const key = k as keyof typeof payload;
         if (payload[key] === "") {
-          // @ts-expect-error: optional fields removed
-          delete payload[key];
+          // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+          delete (payload as Record<string, unknown>)[key];
         }
       });
       const created = await api.post<Item>("/items", payload);
