@@ -1,5 +1,5 @@
 const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost/api/v1";
+  process.env.NEXT_PUBLIC_API_URL ?? "/api/v1";
 
 export interface ApiError extends Error {
   status: number;

@@ -35,7 +35,7 @@ export default function SerialsPage() {
       )}
 
       <Card>
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto"><table className="w-full text-sm">
           <thead className="text-left text-slate-500">
             <tr>
               <th className="py-2">シリアル番号</th>
@@ -63,7 +63,7 @@ export default function SerialsPage() {
               </tr>
             )}
           </tbody>
-        </table>
+        </table></div>
       </Card>
     </div>
   );

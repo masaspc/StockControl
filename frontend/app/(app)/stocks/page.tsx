@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { Card } from "@/components/ui/Card";
@@ -25,7 +27,7 @@ export default function StocksPage() {
         {isLoading ? (
           <div>読み込み中...</div>
         ) : (
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto"><table className="w-full text-sm">
             <thead className="text-left text-slate-500">
               <tr>
                 <th className="py-2">品目コード</th>
@@ -65,7 +67,7 @@ export default function StocksPage() {
                 </tr>
               )}
             </tbody>
-          </table>
+          </table></div>
         )}
       </Card>
     </div>

@@ -25,7 +25,7 @@ export default function StocktakePage() {
         {isLoading ? (
           <div>読み込み中...</div>
         ) : (
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto"><table className="w-full text-sm">
             <thead className="text-left text-slate-500">
               <tr>
                 <th className="py-2">ID</th>
@@ -53,7 +53,7 @@ export default function StocktakePage() {
                 </tr>
               )}
             </tbody>
-          </table>
+          </table></div>
         )}
       </Card>
     </div>
